@@ -83,7 +83,7 @@ const Auth = () => {
       <div className="w-full max-w-md mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-5xl font-extrabold font-display text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-cyan-400 to-indigo-600 drop-shadow-lg mb-2">
-            XhosaProc
+            XhoraProc
           </h1>
           <p className="text-lg text-white/80 font-medium tracking-wide">Advanced AI Proctoring System</p>
         </div>
