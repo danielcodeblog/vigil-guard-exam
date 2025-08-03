@@ -170,11 +170,17 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
       <div className="space-y-6 lg:space-y-8">
         <div className="text-center mb-8">
           <h2 className="text-3xl sm:text-4xl font-display font-bold gradient-primary bg-clip-text text-transparent mb-2">
-            Secure Examination Environment
+            Xhora Secure Examination Environment
           </h2>
           <p className="text-muted-foreground text-lg">Prepare for your AI-monitored assessment</p>
         </div>
-          
+           <Button
+             onClick={handleSignOut}
+             className="mt-6 bg-cyan-600 text-white font-bold px-6 py-3 rounded shadow hover:bg-cyan-700 border-none transition-all duration-200"
+             size="lg"
+           >
+             Sign Out
+           </Button>
         
         <Card className="hover-lift glass-effect border-primary/20 shadow-xl">
           <CardHeader className="text-center">
