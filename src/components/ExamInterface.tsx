@@ -163,27 +163,56 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
 
   if (!examStarted) {
     return (
-      <div className="space-y-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Exam Instructions</CardTitle>
+      <div className="space-y-6 lg:space-y-8">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl sm:text-4xl font-display font-bold gradient-primary bg-clip-text text-transparent mb-2">
+            Secure Examination Environment
+          </h2>
+          <p className="text-muted-foreground text-lg">Prepare for your AI-monitored assessment</p>
+        </div>
+        
+        <Card className="hover-lift glass-effect border-primary/20 shadow-xl">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl sm:text-3xl font-display">Exam Instructions</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <p>Please read the following instructions carefully:</p>
-            <ul className="list-disc list-inside space-y-2 text-sm">
-              <li>Your camera and microphone will be monitored throughout the exam</li>
-              <li>Do not leave the exam window or switch to other applications</li>
-              <li>Keep your face visible to the camera at all times</li>
-              <li>Maintain a quiet environment</li>
-              <li>You have 60 minutes to complete the exam</li>
-            </ul>
-            <Button onClick={startExam} className="w-full">
-              Start Exam
+          <CardContent className="space-y-6">
+            <div className="gradient-secondary p-6 rounded-lg border border-primary/10">
+              <p className="font-medium mb-4 text-lg">Please read the following instructions carefully:</p>
+              <ul className="space-y-3 text-sm sm:text-base">
+                <li className="flex items-start space-x-3">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Your camera and microphone will be monitored throughout the exam</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Do not leave the exam window or switch to other applications</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Keep your face visible to the camera at all times</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Maintain a quiet environment</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>You have 60 minutes to complete the exam</span>
+                </li>
+              </ul>
+            </div>
+            
+            <Button 
+              onClick={startExam} 
+              className="w-full text-lg py-6 gradient-primary hover:opacity-90 transition-all duration-300"
+              size="lg"
+            >
+              Begin Secure Examination
             </Button>
           </CardContent>
         </Card>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           <ProctorCamera onViolation={handleViolation} isActive={false} />
           <AudioMonitor onViolation={handleViolation} isActive={false} />
         </div>
@@ -195,67 +224,94 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 lg:space-y-8">
       {/* Timer and Progress */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <Badge variant="outline">
-            Question {currentQuestionIndex + 1} of {questions.length}
-          </Badge>
-          <Badge variant={violations.length > 0 ? "destructive" : "secondary"}>
-            Violations: {violations.length}
-          </Badge>
+      <div className="glass-effect p-4 sm:p-6 rounded-lg border border-primary/20">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+            <Badge variant="outline" className="text-sm sm:text-base px-3 py-1">
+              Question {currentQuestionIndex + 1} of {questions.length}
+            </Badge>
+            <Badge variant={violations.length > 0 ? "destructive" : "secondary"} className="text-sm sm:text-base px-3 py-1">
+              Violations: {violations.length}
+            </Badge>
+          </div>
+          <div className="text-2xl sm:text-3xl font-mono font-bold gradient-primary bg-clip-text text-transparent">
+            {formatTime(timeRemaining)}
+          </div>
         </div>
-        <div className="text-lg font-mono">
-          {formatTime(timeRemaining)}
+        
+        <div className="mt-4">
+          <Progress value={progress} className="h-3 sm:h-4" />
+          <p className="text-xs sm:text-sm text-muted-foreground mt-2 text-center">
+            {Math.round(progress)}% Complete
+          </p>
         </div>
       </div>
 
-      <Progress value={progress} className="h-2" />
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8">
         {/* Question */}
-        <div className="lg:col-span-2">
-          <Card>
+        <div className="xl:col-span-2">
+          <Card className="glass-effect border-primary/20 shadow-xl">
             <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span>Question {currentQuestionIndex + 1}</span>
-                <Badge variant="outline">{currentQuestion?.difficulty}</Badge>
+              <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                <span className="text-xl sm:text-2xl font-display">Question {currentQuestionIndex + 1}</span>
+                <Badge variant="outline" className="text-sm px-3 py-1 capitalize">
+                  {currentQuestion?.difficulty}
+                </Badge>
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <p className="text-lg">{currentQuestion?.question}</p>
+            <CardContent className="space-y-6 lg:space-y-8">
+              <div className="gradient-secondary p-4 sm:p-6 rounded-lg border border-primary/10">
+                <p className="text-lg sm:text-xl leading-relaxed">{currentQuestion?.question}</p>
+              </div>
 
               <RadioGroup
                 value={selectedAnswers[currentQuestion?.id] || ''}
                 onValueChange={(value) => handleAnswerChange(currentQuestion?.id, value)}
+                className="space-y-3 sm:space-y-4"
               >
                 {Array.isArray(currentQuestion?.options) && currentQuestion.options.map((option, index) => (
-                  <div key={index} className="flex items-center space-x-2">
-                    <RadioGroupItem value={option} id={`option-${index}`} />
-                    <Label htmlFor={`option-${index}`} className="flex-1">
-                      {option}
-                    </Label>
+                  <div key={index} className="group">
+                    <div className="flex items-start space-x-3 p-3 sm:p-4 rounded-lg border border-border hover:border-primary/50 hover:bg-accent/50 transition-all duration-200 cursor-pointer">
+                      <RadioGroupItem value={option} id={`option-${index}`} className="mt-1" />
+                      <Label 
+                        htmlFor={`option-${index}`} 
+                        className="flex-1 text-base sm:text-lg leading-relaxed cursor-pointer"
+                      >
+                        {option}
+                      </Label>
+                    </div>
                   </div>
                 ))}
               </RadioGroup>
 
-              <div className="flex justify-between">
+              <div className="flex flex-col sm:flex-row justify-between gap-4 pt-4 border-t border-border">
                 <Button 
                   variant="outline" 
                   onClick={handlePreviousQuestion}
                   disabled={currentQuestionIndex === 0}
+                  className="w-full sm:w-auto px-6 py-3 text-base"
+                  size="lg"
                 >
-                  Previous
+                  ← Previous
                 </Button>
                 
                 {currentQuestionIndex === questions.length - 1 ? (
-                  <Button onClick={handleSubmitExam}>
+                  <Button 
+                    onClick={handleSubmitExam}
+                    className="w-full sm:w-auto px-8 py-3 text-base gradient-primary hover:opacity-90"
+                    size="lg"
+                  >
                     Submit Exam
                   </Button>
                 ) : (
-                  <Button onClick={handleNextQuestion}>
-                    Next
+                  <Button 
+                    onClick={handleNextQuestion}
+                    className="w-full sm:w-auto px-6 py-3 text-base"
+                    size="lg"
+                  >
+                    Next →
                   </Button>
                 )}
               </div>
@@ -264,7 +320,7 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
         </div>
 
         {/* Monitoring Panel */}
-        <div className="space-y-4">
+        <div className="space-y-6 xl:space-y-8">
           <ProctorCamera onViolation={handleViolation} isActive={examStarted} />
           <AudioMonitor onViolation={handleViolation} isActive={examStarted} />
         </div>

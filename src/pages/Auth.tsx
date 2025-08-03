@@ -74,14 +74,22 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Proctoring System</CardTitle>
-          <CardDescription>
-            Sign in to access your exams
-          </CardDescription>
-        </CardHeader>
+    <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
+      <div className="w-full max-w-md mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold gradient-primary bg-clip-text text-transparent text-shadow mb-2">
+            XhosaProc
+          </h1>
+          <p className="text-lg text-muted-foreground">Advanced AI Proctoring System</p>
+        </div>
+        
+        <Card className="hover-lift glass-effect border-primary/20 shadow-xl">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl">Authentication</CardTitle>
+            <CardDescription className="text-base">
+              Access your secure examination environment
+            </CardDescription>
+          </CardHeader>
         <CardContent>
           <Tabs defaultValue="signin" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
@@ -146,7 +154,8 @@ const Auth = () => {
             </TabsContent>
           </Tabs>
         </CardContent>
-      </Card>
+        </Card>
+      </div>
     </div>
   );
 };
