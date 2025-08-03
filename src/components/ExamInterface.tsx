@@ -24,6 +24,10 @@ interface ExamInterfaceProps {
 }
 
 const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
+  // Add sign out function using window.location for simplicity
+  const handleSignOut = () => {
+    window.location.href = '/'; // Or use router if available
+  };
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
@@ -170,6 +174,13 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
           </h2>
           <p className="text-muted-foreground text-lg">Prepare for your AI-monitored assessment</p>
         </div>
+           <Button
+             onClick={handleSignOut}
+             className="mt-6 bg-cyan-600 text-white font-bold px-6 py-3 rounded shadow hover:bg-cyan-700 border-none transition-all duration-200"
+             size="lg"
+           >
+             Sign Out
+           </Button>
         
         <Card className="hover-lift glass-effect border-primary/20 shadow-xl">
           <CardHeader className="text-center">
