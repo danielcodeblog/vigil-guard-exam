@@ -3,6 +3,8 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+    /* Finnish-inspired cool gradient background */
+  background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
 }
 
 .logo {
