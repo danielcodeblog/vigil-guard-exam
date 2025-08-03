@@ -22,23 +22,23 @@ const Index = () => {
       <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-purple-900 via-blue-800 to-cyan-600">
         <div className="w-full max-w-md mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold gradient-primary bg-clip-text text-transparent text-shadow mb-2">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold bg-clip-text text-white drop-shadow-lg mb-2">
               XhosaProc
             </h1>
-            <p className="text-lg text-cyan-100">Advanced AI Proctoring System</p>
+            <p className="text-lg text-white/90 font-semibold">Advanced AI Proctoring System</p>
           </div>
           
           <Card className="hover-lift glass-effect border-primary/20 shadow-xl">
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl text-blue-100">Welcome Back</CardTitle>
-              <CardDescription className="text-base text-cyan-200">
+              <CardTitle className="text-2xl text-white font-bold">Welcome Back</CardTitle>
+              <CardDescription className="text-base text-white/80">
                 Please sign in to access your secure examinations
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Button 
                 onClick={() => navigate('/auth')} 
-                className="w-full text-lg py-6 gradient-primary hover:opacity-90 transition-all duration-300"
+                className="w-full text-lg py-6 bg-cyan-600 text-white font-bold hover:bg-cyan-700 transition-all duration-300"
                 size="lg"
               >
                 Sign In to Xhosa
@@ -56,21 +56,21 @@ const Index = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <h1 className="text-2xl sm:text-3xl font-display font-bold gradient-primary bg-clip-text text-transparent">
+              <h1 className="text-2xl sm:text-3xl font-display font-bold bg-clip-text text-white drop-shadow-lg">
                 XHOSA
               </h1>
-              <div className="hidden sm:block w-px h-6 bg-primary/30"></div>
-              <span className="hidden sm:inline text-sm text-cyan-100">AI Proctoring System</span>
+              <div className="hidden sm:block w-px h-6 bg-white/40"></div>
+              <span className="hidden sm:inline text-sm text-white/90 font-semibold">AI Proctoring System</span>
             </div>
             
             <div className="flex items-center space-x-2 sm:space-x-4">
-              <span className="text-sm text-cyan-100 hidden sm:inline truncate max-w-32 lg:max-w-none">
+              <span className="text-sm text-white/90 font-semibold hidden sm:inline truncate max-w-32 lg:max-w-none">
                 {user.email}
               </span>
               <Button 
                 variant="outline" 
                 onClick={signOut}
-                className="border-cyan-200 hover:bg-cyan-900/10 text-cyan-100 transition-all duration-300"
+                className="border-white/80 hover:bg-cyan-900/10 text-white font-bold transition-all duration-300"
                 size="sm"
               >
                 Sign Out
