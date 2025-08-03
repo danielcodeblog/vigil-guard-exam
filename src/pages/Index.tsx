@@ -57,7 +57,7 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <h1 className="text-2xl sm:text-3xl font-display font-bold bg-clip-text text-white drop-shadow-lg">
-                XHOSA
+                XHORA
               </h1>
               <div className="hidden sm:block w-px h-6 bg-white/40"></div>
               <span className="hidden sm:inline text-sm text-white/90 font-semibold">AI Proctoring System</span>
