@@ -23,7 +23,7 @@ const Index = () => {
         <div className="w-full max-w-md mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold bg-clip-text text-white drop-shadow-lg mb-2">
-              XhosaProc
+              XhoraProc
             </h1>
             <p className="text-lg text-white/90 font-semibold">Advanced AI Proctoring System</p>
           </div>
@@ -41,7 +41,7 @@ const Index = () => {
                 className="w-full text-lg py-6 bg-cyan-600 text-white font-bold hover:bg-cyan-700 transition-all duration-300"
                 size="lg"
               >
-                Sign In to Xhosa
+                Sign In to Xhora
               </Button>
             </CardContent>
           </Card>
