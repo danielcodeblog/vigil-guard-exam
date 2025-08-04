@@ -42,9 +42,35 @@ const AdminPage: React.FC = () => {
     fetchRecords();
   }, []);
 
+  const [showProfile, setShowProfile] = useState(false);
+  const navigate = window.location ? (path: string) => { window.location.href = path; } : () => {};
+
+  const handleLogout = () => {
+    // Clear any admin session if needed
+    navigate("/auth");
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-cyan-100 to-indigo-200 flex items-center justify-center p-4">
       <div className="w-full max-w-5xl mx-auto">
+        {/* Profile section */}
+        <div className="flex justify-between items-center mb-8">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-400 via-cyan-300 to-indigo-500 flex items-center justify-center shadow-lg">
+              <span className="text-2xl font-bold text-white">A</span>
+            </div>
+            <div>
+              <div className="text-lg font-bold text-blue-900">Admin</div>
+              <div className="text-sm text-blue-700">admin@system.local</div>
+            </div>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-all duration-150"
+          >
+            Logout
+          </button>
+        </div>
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-cyan-400 to-indigo-600 drop-shadow-lg mb-2">Admin Dashboard</h1>
           <p className="text-lg text-blue-900/80 font-medium tracking-wide">Review all exam sessions, recordings, and answers</p>
