@@ -34,7 +34,6 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
   const [sessionId, setSessionId] = useState<string>('');
   const [violations, setViolations] = useState<any[]>([]);
   const [examStarted, setExamStarted] = useState(false);
-  const [instructionsAcknowledged, setInstructionsAcknowledged] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(3600); // 60 minutes
   const { toast } = useToast();
 
@@ -43,44 +42,20 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
   }, []);
 
   useEffect(() => {
-    if (!examStarted || timeRemaining <= 0) {
-      return;
+    if (examStarted && timeRemaining > 0) {
+      const timer = setInterval(() => {
+        setTimeRemaining(prev => {
+          if (prev <= 1) {
+            handleSubmitExam();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(timer);
     }
-
-    // Prevent leaving the exam
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-      e.returnValue = '';
-    };
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Prevent Alt+Tab, Alt+F4, Ctrl+W, etc.
-      if ((e.altKey && (e.key === 'Tab' || e.key === 'F4')) || 
-          (e.ctrlKey && (e.key === 'w' || e.key === 'W'))) {
-        e.preventDefault();
-      }
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    window.addEventListener('keydown', handleKeyDown);
-    
-    const timer = setInterval(() => {
-      setTimeRemaining(prev => {
-        if (prev <= 1) {
-          handleSubmitExam();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    // Cleanup function to remove event listeners
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-      window.removeEventListener('keydown', handleKeyDown);
-      clearInterval(timer);
-    };
-  }, [examStarted, timeRemaining, handleSubmitExam]);
+  }, [examStarted, timeRemaining]);
 
   const loadQuestions = async () => {
     const { data, error } = await supabase
@@ -232,28 +207,13 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
                   </li>
                 </ul>
               </div>
-              <div className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <input
-                    type="checkbox"
-                    id="acknowledgeInstructions"
-                    checked={instructionsAcknowledged}
-                    onChange={(e) => setInstructionsAcknowledged(e.target.checked)}
-                    className="mt-1"
-                  />
-                  <label htmlFor="acknowledgeInstructions" className="text-sm text-muted-foreground">
-                    I have read and understood all the instructions above, and I agree to comply with them during the examination.
-                  </label>
-                </div>
-                <Button 
-                  onClick={startExam}
-                  disabled={!instructionsAcknowledged} 
-                  className="w-full text-lg py-6 bg-gradient-to-r from-primary via-purple-500 to-pink-500 text-white font-bold shadow-lg hover:scale-105 transition-all duration-300 animate-fadein delay-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                  size="lg"
-                >
-                  Begin Secure Examination
-                </Button>
-              </div>
+              <Button 
+                onClick={startExam} 
+                className="w-full text-lg py-6 bg-gradient-to-r from-primary via-purple-500 to-pink-500 text-white font-bold shadow-lg hover:scale-105 transition-all duration-300 animate-fadein delay-200"
+                size="lg"
+              >
+                Begin Secure Examination
+              </Button>
             </CardContent>
           </Card>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10 animate-[fadein_0.8s_ease-out_0.8s] opacity-0 [animation-fill-mode:forwards]">
