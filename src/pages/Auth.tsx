@@ -96,10 +96,9 @@ const Auth = () => {
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="signin" className="w-full">
-              <TabsList className="grid w-full grid-cols-3 mb-4">
+              <TabsList className="grid w-full grid-cols-2 mb-4">
                 <TabsTrigger value="signin">Sign In</TabsTrigger>
                 <TabsTrigger value="signup">Sign Up</TabsTrigger>
-                <TabsTrigger value="admin">Admin Login</TabsTrigger>
               </TabsList>
               <TabsContent value="signin">
                 <form onSubmit={handleSignIn} className="space-y-5">
@@ -158,59 +157,6 @@ const Auth = () => {
                     {loading ? 'Creating Account...' : 'Sign Up'}
                   </Button>
                 </form>
-              </TabsContent>
-              <TabsContent value="admin">
-                {/* Inline admin login form */}
-                {(() => {
-                  const [adminUsername, setAdminUsername] = React.useState("");
-                  const [adminPassword, setAdminPassword] = React.useState("");
-                  const [adminError, setAdminError] = React.useState("");
-                  const [adminLoading, setAdminLoading] = React.useState(false);
-                  const adminNavigate = useNavigate();
-
-                  const handleAdminLogin = (e: React.FormEvent) => {
-                    e.preventDefault();
-                    setAdminLoading(true);
-                    if (adminUsername === "admin" && adminPassword === "123456") {
-                      setAdminError("");
-                      adminNavigate("/admin");
-                    } else {
-                      setAdminError("Invalid admin credentials");
-                    }
-                    setAdminLoading(false);
-                  };
-
-                  return (
-                    <form onSubmit={handleAdminLogin} className="space-y-5">
-                      <div className="space-y-2">
-                        <Label htmlFor="admin-username" className="text-blue-900 font-semibold">Admin Username</Label>
-                        <Input
-                          id="admin-username"
-                          type="text"
-                          value={adminUsername}
-                          onChange={e => setAdminUsername(e.target.value)}
-                          required
-                          className="bg-white/60 border border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="admin-password" className="text-blue-900 font-semibold">Admin Password</Label>
-                        <Input
-                          id="admin-password"
-                          type="password"
-                          value={adminPassword}
-                          onChange={e => setAdminPassword(e.target.value)}
-                          required
-                          className="bg-white/60 border border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                        />
-                      </div>
-                      {adminError && <div className="text-red-500 mb-2">{adminError}</div>}
-                      <Button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-all duration-150" disabled={adminLoading}>
-                        {adminLoading ? 'Logging In...' : 'Admin Login'}
-                      </Button>
-                    </form>
-                  );
-                })()}
               </TabsContent>
             </Tabs>
           </CardContent>
