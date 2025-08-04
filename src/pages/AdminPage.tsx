@@ -62,7 +62,7 @@ const AdminPage: React.FC = () => {
             </div>
             <div>
               <div className="text-lg font-bold text-blue-900">Admin</div>
-              <div className="text-sm text-blue-700">admin@system.local</div>
+             
             </div>
           </div>
           <button
@@ -86,33 +86,51 @@ const AdminPage: React.FC = () => {
               <table className="min-w-full text-left rounded-xl overflow-hidden shadow-lg">
                 <thead className="bg-gradient-to-r from-blue-500 via-cyan-400 to-indigo-500 text-white">
                   <tr>
-                    <th className="px-6 py-4 font-semibold">Student Name</th>
-                    <th className="px-6 py-4 font-semibold">Exam Date</th>
-                    <th className="px-6 py-4 font-semibold">Audio</th>
-                    <th className="px-6 py-4 font-semibold">Video</th>
-                    <th className="px-6 py-4 font-semibold">Answers</th>
+                    <th className="px-4 py-3 font-semibold">ID</th>
+                    <th className="px-4 py-3 font-semibold">User ID</th>
+                    <th className="px-4 py-3 font-semibold">Student Name</th>
+                    <th className="px-4 py-3 font-semibold">Started At</th>
+                    <th className="px-4 py-3 font-semibold">Created At</th>
+                    <th className="px-4 py-3 font-semibold">Ended At</th>
+                    <th className="px-4 py-3 font-semibold">Status</th>
+                    <th className="px-4 py-3 font-semibold">Violations</th>
+                    <th className="px-4 py-3 font-semibold">Audio</th>
+                    <th className="px-4 py-3 font-semibold">Video</th>
+                    <th className="px-4 py-3 font-semibold">Answers</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white/90 divide-y divide-blue-100">
-                  {records.map((record) => (
+                  {records.map((record: any) => (
                     <tr key={record.id} className="hover:bg-blue-50 transition">
-                      <td className="px-6 py-4 text-blue-900 font-medium">{record.studentName}</td>
-                      <td className="px-6 py-4 text-blue-700">{record.examDate}</td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 py-3 text-blue-900 font-mono text-xs">{record.id}</td>
+                      <td className="px-4 py-3 text-blue-700 font-mono text-xs">{record.user_id}</td>
+                      <td className="px-4 py-3 text-blue-900 font-medium">{record.studentName}</td>
+                      <td className="px-4 py-3 text-blue-700">{record.started_at || "-"}</td>
+                      <td className="px-4 py-3 text-blue-700">{record.created_at || "-"}</td>
+                      <td className="px-4 py-3 text-blue-700">{record.ended_at || "-"}</td>
+                      <td className="px-4 py-3 text-blue-700">{record.status || "-"}</td>
+                      <td className="px-4 py-3 text-blue-700">
+                        {record.violations ? (
+                          <pre className="bg-blue-50 rounded p-2 text-blue-900 text-xs shadow-inner whitespace-pre-wrap">{typeof record.violations === "string" ? record.violations : JSON.stringify(record.violations, null, 2)}</pre>
+                        ) : (
+                          <span className="text-gray-400">N/A</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3">
                         {record.audioUrl ? (
                           <audio controls src={record.audioUrl} className="w-40" />
                         ) : (
                           <span className="text-gray-400">N/A</span>
                         )}
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 py-3">
                         {record.videoUrl ? (
                           <video controls width="180" className="rounded shadow" src={record.videoUrl} />
                         ) : (
                           <span className="text-gray-400">N/A</span>
                         )}
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 py-3">
                         <div className="bg-blue-50 rounded p-2 text-blue-900 text-sm shadow-inner">
                           {record.answers || <span className="text-gray-400">N/A</span>}
                         </div>
