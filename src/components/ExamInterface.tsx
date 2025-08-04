@@ -168,10 +168,9 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
   if (!examStarted) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-purple-50 to-pink-50/80 py-10 px-4 animate-[fadein_0.6s_ease-out]">
-        <div className="max-w-2xl w-full mx-auto backdrop-blur-sm">
-          <div className="text-center mb-10 relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-purple-300/20 to-pink-300/20 blur-3xl -z-10 rounded-full"></div>
-            <h2 className="text-4xl sm:text-6xl font-display font-extrabold bg-gradient-to-br from-primary via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4 drop-shadow-2xl animate-[slidein_0.8s_ease-out] tracking-tight">
+        <div className="max-w-2xl w-full mx-auto">
+          <div className="text-center mb-10">
+            <h2 className="text-4xl sm:text-6xl font-display font-extrabold text-primary mb-4 animate-[slidein_0.8s_ease-out] tracking-tight">
               Xhora Secure Examination
             </h2>
             <p className="text-muted-foreground text-lg sm:text-xl font-medium animate-[fadein_0.8s_ease-out_0.2s] opacity-0 [animation-fill-mode:forwards]">Prepare for your AI-monitored assessment</p>
