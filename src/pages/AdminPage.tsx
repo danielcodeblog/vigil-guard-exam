@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
 type ExamRecord = {
@@ -43,7 +44,7 @@ const AdminPage: React.FC = () => {
   }, []);
 
   const [showProfile, setShowProfile] = useState(false);
-  const navigate = window.location ? (path: string) => { window.location.href = path; } : () => {};
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     // Clear any admin session if needed
