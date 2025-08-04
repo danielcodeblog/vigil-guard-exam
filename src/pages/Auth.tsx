@@ -96,9 +96,10 @@ const Auth = () => {
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="signin" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-4">
+              <TabsList className="grid w-full grid-cols-3 mb-4">
                 <TabsTrigger value="signin">Sign In</TabsTrigger>
                 <TabsTrigger value="signup">Sign Up</TabsTrigger>
+                <TabsTrigger value="admin">Admin Login</TabsTrigger>
               </TabsList>
               <TabsContent value="signin">
                 <form onSubmit={handleSignIn} className="space-y-5">
@@ -157,6 +158,9 @@ const Auth = () => {
                     {loading ? 'Creating Account...' : 'Sign Up'}
                   </Button>
                 </form>
+              </TabsContent>
+              <TabsContent value="admin">
+                <AdminLoginTab />
               </TabsContent>
             </Tabs>
           </CardContent>
