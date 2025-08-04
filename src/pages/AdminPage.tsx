@@ -77,6 +77,20 @@ const AdminPage: React.FC = () => {
           <p className="text-lg text-blue-900/80 font-medium tracking-wide">Review all exam sessions, recordings, and answers</p>
         </div>
         <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-2xl border border-blue-200 p-8">
+          {/* Database fetch status and summary */}
+          <div className="mb-6">
+            {loading ? (
+              <div className="flex items-center gap-2 text-blue-700 animate-pulse">
+                <span className="font-semibold">Fetching data from database...</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 text-green-700">
+                <span className="font-semibold">Database fetch complete.</span>
+                <span className="text-xs text-green-800">{records.length} records loaded</span>
+              </div>
+            )}
+          </div>
+          {/* Table display */}
           {loading ? (
             <div className="flex justify-center items-center h-40">
               <span className="text-lg text-blue-700 animate-pulse">Loading...</span>
