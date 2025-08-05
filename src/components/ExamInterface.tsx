@@ -327,124 +327,252 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-purple-50 to-pink-50/80 py-10 px-4 animate-[fadein_0.6s_ease-out]">
-      <div className="max-w-6xl w-full mx-auto space-y-10">
-        {/* Timer and Progress */}
-        <div className="glass-effect p-6 sm:p-8 rounded-2xl border border-primary/20 shadow-2xl backdrop-blur-sm bg-white/40 animate-[slidein_0.8s_ease-out]">
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-purple-200/20 to-pink-200/10 animate-pulse rounded-2xl"></div>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 relative z-10">
-              <div className="flex flex-wrap items-center gap-4">
-              <Badge variant="outline" className="text-base sm:text-lg px-4 py-2 shadow-lg backdrop-blur-sm bg-white/60 border-primary/20">
-                Question {currentQuestionIndex + 1} of {questions.length}
-              </Badge>
-              <Badge 
-                variant={violations.length > 0 ? "destructive" : "secondary"} 
-                className={`text-base sm:text-lg px-4 py-2 shadow-lg backdrop-blur-sm ${
-                  violations.length > 0 
-                    ? 'bg-red-50/80 text-red-600 border-red-200'
-                    : 'bg-white/60 border-primary/20'
-                }`}
-              >
-                Violations: {violations.length}
-              </Badge>
-            </div>
-            <div className="text-3xl sm:text-4xl font-mono font-bold bg-gradient-to-br from-primary via-purple-600 to-pink-600 bg-clip-text text-transparent [text-shadow:0_4px_8px_rgba(0,0,0,0.1)] animate-pulse">
-              {formatTime(timeRemaining)}
+    <div className="min-h-screen flex flex-col bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-purple-50 to-pink-50/80 py-6 px-4 animate-[fadein_0.6s_ease-out]">
+      <div className="max-w-[1600px] w-full mx-auto space-y-6">
+        {/* Top Bar with Timer and Stats */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <Card className="glass-effect border-primary/20 shadow-xl backdrop-blur-sm bg-white/40 lg:col-span-2">
+            <CardContent className="p-6">
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <div className="flex items-center space-x-4">
+                  <div className={`text-4xl font-mono font-bold ${getTimeColor(timeRemaining)}`}>
+                    <Clock className="inline-block mr-2 h-8 w-8" />
+                    {formatTime(timeRemaining)}
+                  </div>
+                  <Separator orientation="vertical" className="h-8" />
+                  <div className="flex items-center space-x-2">
+                    <Badge variant="outline" className="text-base px-4 py-2">
+                      <Brain className="inline-block mr-2 h-4 w-4" />
+                      Question {currentQuestionIndex + 1}/{questions.length}
+                    </Badge>
+                    <Badge variant="secondary" className="text-base px-4 py-2">
+                      <Activity className="inline-block mr-2 h-4 w-4" />
+                      {currentQuestion?.marks} marks
+                    </Badge>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-4">
+                  {violations.length > 0 && (
+                    <Alert variant="destructive" className="bg-red-50/90 border-red-200">
+                      <AlertCircle className="h-4 w-4" />
+                      <AlertDescription>
+                        {violations.length} violation{violations.length > 1 ? 's' : ''} detected
+                      </AlertDescription>
+                    </Alert>
+                  )}
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-purple-300/20 to-pink-300/20 blur-lg"></div>
-              <Progress 
-                value={progress} 
-                className="h-4 sm:h-5 rounded-full relative z-10 overflow-hidden shadow-lg"
-                style={{
-                  background: 'linear-gradient(to right, rgba(255,255,255,0.1), rgba(255,255,255,0.2))'
-                }}
-              />
-            </div>
-            <p className="text-sm sm:text-base text-muted-foreground mt-3 text-center font-medium">
-              {Math.round(progress)}% Complete
-            </p>
-          </div>
+            </CardContent>
+          </Card>
+
+          {/* Exam Progress Card */}
+          <Card className="glass-effect border-primary/20 shadow-xl backdrop-blur-sm bg-white/40">
+            <CardContent className="p-6">
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <div className="space-y-1">
+                    <p className="text-sm text-muted-foreground">Progress</p>
+                    <div className="text-2xl font-semibold">
+                      {Math.round((Object.keys(selectedAnswers).length / questions.length) * 100)}%
+                    </div>
+                  </div>
+                  <div className="space-y-1 text-right">
+                    <p className="text-sm text-muted-foreground">Total Marks</p>
+                    <div className="text-2xl font-semibold">{examStats.totalMarks}</div>
+                  </div>
+                </div>
+                <div className="relative pt-2">
+                  <div className="flex mb-2 items-center justify-between gap-2">
+                    <div className="text-xs text-muted-foreground">
+                      Attempted: {examStats.attemptedQuestions}
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      Marked: {examStats.markedForReview}
+                    </div>
+                  </div>
+                  <Progress value={calculateProgress().attempted} className="h-2 mb-1" />
+                  <Progress value={calculateProgress().marked} className="h-2 mb-1 bg-yellow-200" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-10 lg:gap-14 animate-fadein delay-200">
-          {/* Question */}
-          <div className="xl:col-span-2">
-            <Card className="glass-effect border-primary/20 shadow-2xl hover:scale-[1.01] transition-transform duration-300">
-              <CardHeader>
-                <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                  <span className="text-2xl sm:text-3xl font-display">Question {currentQuestionIndex + 1}</span>
-                  <Badge variant="outline" className="text-base px-4 py-2 capitalize">
-                    {currentQuestion?.difficulty}
-                  </Badge>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-8 lg:space-y-10">
-                <div className="bg-gradient-to-r from-primary/10 via-purple-100 to-pink-100 p-6 rounded-xl border border-primary/10 animate-fadein">
-                  <p className="text-xl sm:text-2xl leading-relaxed font-medium">{currentQuestion?.question}</p>
-                </div>
-                <RadioGroup
-                  value={selectedAnswers[currentQuestion?.id] || ''}
-                  onValueChange={(value) => handleAnswerChange(currentQuestion?.id, value)}
-                  className="space-y-4 sm:space-y-5"
-                >
-                  {Array.isArray(currentQuestion?.options) && currentQuestion.options.map((option, index) => (
-                    <div key={index} className="group">
-                      <div className="flex items-start space-x-4 p-4 sm:p-5 rounded-xl border border-border hover:border-primary/50 hover:bg-accent/50 transition-all duration-200 cursor-pointer shadow-md">
-                        <RadioGroupItem value={option} id={`option-${index}`} className="mt-1" />
-                        <Label 
-                          htmlFor={`option-${index}`} 
-                          className="flex-1 text-lg sm:text-xl leading-relaxed cursor-pointer"
-                        >
-                          {option}
-                        </Label>
+        {/* Main Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Question Panel */}
+          <div className="lg:col-span-8 space-y-6">
+            <Tabs value={currentTab} onValueChange={setCurrentTab} className="w-full">
+              <TabsList className="w-full">
+                <TabsTrigger value="question" className="flex-1">
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  Question
+                </TabsTrigger>
+                <TabsTrigger value="instructions" className="flex-1">
+                  <Brain className="w-4 h-4 mr-2" />
+                  Instructions
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="question">
+                <Card className="glass-effect border-primary/20 shadow-xl">
+                  <CardHeader className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-2xl font-display">Question {currentQuestionIndex + 1}</CardTitle>
+                      <div className="flex items-center gap-2">
+                        <Badge variant="secondary" className="capitalize">
+                          {currentQuestion?.difficulty}
+                        </Badge>
+                        <Badge variant="outline">
+                          {currentQuestion?.category}
+                        </Badge>
                       </div>
                     </div>
-                  ))}
-                </RadioGroup>
-                <div className="flex flex-col sm:flex-row justify-between gap-6 pt-6 border-t border-border">
-                  <Button 
-                    variant="outline" 
-                    onClick={handlePreviousQuestion}
-                    disabled={currentQuestionIndex === 0}
-                    className="w-full sm:w-auto px-8 py-4 text-lg font-semibold shadow-md"
-                    size="lg"
-                  >
-                    ← Previous
-                  </Button>
-                  {currentQuestionIndex === questions.length - 1 ? (
-                    <Button 
-                      onClick={handleSubmitExam}
-                      className="w-full sm:w-auto px-10 py-4 text-lg font-bold bg-gradient-to-r from-primary via-purple-500 to-pink-500 text-white shadow-lg hover:scale-105 transition-all duration-300"
-                      size="lg"
+                    <CardDescription className="text-base">
+                      Subject: {currentQuestion?.subject} • Recommended Time: {currentQuestion?.timeRecommended || 'Not specified'}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="bg-gradient-to-r from-primary/10 via-purple-100 to-pink-100 p-6 rounded-xl border border-primary/10">
+                      <p className="text-xl leading-relaxed">{currentQuestion?.question}</p>
+                    </div>
+                    <RadioGroup
+                      value={selectedAnswers[currentQuestion?.id] || ''}
+                      onValueChange={(value) => handleAnswerChange(currentQuestion?.id, value)}
+                      className="space-y-4"
                     >
-                      Submit Exam
-                    </Button>
-                  ) : (
-                    <Button 
-                      onClick={handleNextQuestion}
-                      className="w-full sm:w-auto px-8 py-4 text-lg font-semibold shadow-md"
-                      size="lg"
-                    >
-                      Next →
-                    </Button>
-                  )}
+                      {currentQuestion?.options.map((option, index) => (
+                        <div key={index} className="group">
+                          <div className="flex items-start space-x-4 p-4 rounded-xl border border-border hover:border-primary/50 hover:bg-accent/50 transition-all duration-200 cursor-pointer shadow-sm">
+                            <RadioGroupItem value={option} id={`option-${index}`} className="mt-1" />
+                            <Label 
+                              htmlFor={`option-${index}`} 
+                              className="flex-1 text-lg leading-relaxed cursor-pointer"
+                            >
+                              {option}
+                            </Label>
+                          </div>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </CardContent>
+                  <Separator />
+                  <CardContent className="p-6">
+                    <div className="flex flex-wrap items-center justify-between gap-4">
+                      <div className="flex items-center gap-4">
+                        <Button 
+                          variant="outline" 
+                          onClick={handlePreviousQuestion}
+                          disabled={currentQuestionIndex === 0}
+                        >
+                          ← Previous
+                        </Button>
+                        <Button 
+                          variant="secondary"
+                          onClick={toggleMarkQuestion}
+                          className={markedQuestions.has(currentQuestionIndex) ? 'bg-yellow-100 hover:bg-yellow-200' : ''}
+                        >
+                          <Flag className="w-4 h-4 mr-2" />
+                          {markedQuestions.has(currentQuestionIndex) ? 'Unmark' : 'Mark'} for Review
+                        </Button>
+                      </div>
+                      {currentQuestionIndex === questions.length - 1 ? (
+                        <Button 
+                          onClick={handleSubmitExam}
+                          className="bg-gradient-to-r from-primary via-purple-500 to-pink-500 text-white"
+                        >
+                          <CheckCircle2 className="w-4 h-4 mr-2" />
+                          Submit Exam
+                        </Button>
+                      ) : (
+                        <Button onClick={handleNextQuestion}>
+                          Next →
+                        </Button>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+              <TabsContent value="instructions">
+                <Card className="glass-effect border-primary/20 shadow-xl">
+                  <CardContent className="p-6">
+                    <div className="prose prose-lg">
+                      <h3 className="text-xl font-semibold mb-4">Question Guidelines</h3>
+                      <ul className="space-y-2">
+                        <li>Read each question carefully before answering</li>
+                        <li>Use the "Mark for Review" feature for questions you want to revisit</li>
+                        <li>Recommended time per question is shown with each question</li>
+                        <li>Questions marked with a flag can be easily found in the navigation panel</li>
+                      </ul>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
+          </div>
+
+          {/* Side Panel */}
+          <div className="lg:col-span-4 space-y-6">
+            {/* Question Navigation */}
+            <Card className="glass-effect border-primary/20 shadow-xl">
+              <CardHeader>
+                <CardTitle className="text-xl">Question Navigator</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ScrollArea className="h-[300px] pr-4">
+                  <div className="grid grid-cols-5 gap-2">
+                    {questions.map((_, index) => {
+                      const status = getQuestionStatus(index);
+                      return (
+                        <Button
+                          key={index}
+                          variant={status === 'marked' ? 'secondary' : status === 'attempted' ? 'default' : 'outline'}
+                          className={`
+                            aspect-square p-0 text-base font-semibold
+                            ${status === 'marked' ? 'bg-yellow-100 hover:bg-yellow-200' : ''}
+                            ${status === 'attempted' ? 'bg-primary/20' : ''}
+                            ${currentQuestionIndex === index ? 'ring-2 ring-primary' : ''}
+                          `}
+                          onClick={() => jumpToQuestion(index)}
+                        >
+                          {index + 1}
+                        </Button>
+                      );
+                    })}
+                  </div>
+                </ScrollArea>
+                <div className="mt-4 space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <span>Attempted</span>
+                    <Badge variant="outline">{Object.keys(selectedAnswers).length}</Badge>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span>Marked for Review</span>
+                    <Badge variant="secondary">{markedQuestions.size}</Badge>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span>Not Attempted</span>
+                    <Badge variant="outline">
+                      {questions.length - Object.keys(selectedAnswers).length}
+                    </Badge>
+                  </div>
                 </div>
               </CardContent>
             </Card>
-          </div>
-          {/* Monitoring Panel */}
-          <div className="space-y-8 xl:space-y-10">
-            <div className="rounded-xl shadow-lg bg-white/60 p-4">
-              <ProctorCamera onViolation={handleViolation} isActive={examStarted} />
-            </div>
-            <div className="rounded-xl shadow-lg bg-white/60 p-4">
-              <AudioMonitor onViolation={handleViolation} isActive={examStarted} />
-            </div>
+
+            {/* Monitoring Panel */}
+            <Card className="glass-effect border-primary/20 shadow-xl">
+              <CardHeader>
+                <CardTitle className="text-xl">Proctoring Status</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="rounded-lg overflow-hidden bg-black/5">
+                  <ProctorCamera onViolation={handleViolation} isActive={examStarted} />
+                </div>
+                <div className="rounded-lg overflow-hidden bg-black/5">
+                  <AudioMonitor onViolation={handleViolation} isActive={examStarted} />
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
