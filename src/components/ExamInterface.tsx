@@ -257,17 +257,17 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
       <div className="min-h-screen flex flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-purple-50 to-pink-50/80 py-10 px-4 animate-[fadein_0.6s_ease-out] relative overflow-hidden">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute w-[500px] h-[500px] -top-48 -right-24 bg-gradient-to-br from-indigo-500/20 via-cyan-500/10 to-transparent rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute w-[500px] h-[500px] -bottom-48 -left-24 bg-gradient-to-tr from-emerald-500/20 via-cyan-500/10 to-transparent rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute w-[500px] h-[500px] -top-48 -right-24 bg-gradient-to-br from-indigo-600/20 via-blue-500/10 to-transparent rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute w-[500px] h-[500px] -bottom-48 -left-24 bg-gradient-to-tr from-cyan-400/20 via-blue-500/10 to-transparent rounded-full blur-3xl animate-pulse delay-1000"></div>
           <div className="absolute inset-0 bg-grid-white/10 bg-[size:20px_20px] opacity-10"></div>
         </div>
 
         <div className="max-w-6xl w-full mx-auto relative z-10">
           <div className="text-center mb-10">
             <div className="inline-block">
-              <h2 className="text-5xl sm:text-7xl font-display font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-cyan-500 to-emerald-500 mb-4 animate-[slidein_0.8s_ease-out] tracking-tight drop-shadow-lg relative">
+              <h2 className="text-5xl sm:text-7xl font-display font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-500 to-cyan-400 mb-4 animate-[slidein_0.8s_ease-out] tracking-tight drop-shadow-lg relative">
                 XhoraProc Secure Examination
-                <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/20 to-emerald-500/20 blur-2xl opacity-50"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/20 to-cyan-400/20 blur-2xl opacity-50"></div>
               </h2>
             </div>
             <p className="text-muted-foreground text-lg sm:text-xl font-medium animate-[fadein_0.8s_ease-out_0.2s] opacity-0 [animation-fill-mode:forwards]">
@@ -379,7 +379,7 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
 
                 <Button 
                   onClick={startExam} 
-                  className="w-full mt-8 text-lg py-6 relative group overflow-hidden bg-gradient-to-r from-indigo-500 via-cyan-500 to-emerald-500 text-white font-bold shadow-lg hover:scale-[1.02] transition-all duration-300 animate-fadein delay-200"
+                  className="w-full mt-8 text-lg py-6 relative group overflow-hidden bg-gradient-to-r from-indigo-600 via-blue-500 to-cyan-400 text-white font-bold shadow-lg hover:scale-[1.02] transition-all duration-300 animate-fadein delay-200"
                   size="lg"
                 >
                   <span className="relative z-10">Begin Secure Examination</span>
@@ -575,7 +575,7 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
                       {currentQuestionIndex === questions.length - 1 ? (
                         <Button 
                           onClick={handleSubmitExam}
-                          className="bg-gradient-to-r from-indigo-500 via-cyan-500 to-emerald-500 text-white"
+                          className="bg-gradient-to-r from-indigo-600 via-blue-500 to-cyan-400 text-white"
                         >
                           <CheckCircle2 className="w-4 h-4 mr-2" />
                           Submit Exam
