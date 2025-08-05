@@ -175,34 +175,34 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
             </h2>
             <p className="text-muted-foreground text-lg sm:text-xl font-medium animate-[fadein_0.8s_ease-out_0.2s] opacity-0 [animation-fill-mode:forwards]">Prepare for your AI-monitored assessment</p>
           </div>
-          <Card className="hover:scale-[1.02] transition-all duration-500 glass-effect border-primary/20 shadow-2xl backdrop-blur-md bg-white/40">
+          <Card className="hover:scale-[1.02] transition-all duration-500 glass-effect border-primary/20 shadow-2xl backdrop-blur-md bg-slate-900/40">
             <CardHeader className="text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-purple-200/20 to-pink-200/10 animate-pulse"></div>
-              <CardTitle className="text-2xl sm:text-3xl font-display relative z-10">Exam Instructions</CardTitle>
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-slate-800/50 to-slate-900/50 animate-pulse"></div>
+              <CardTitle className="text-2xl sm:text-3xl font-display relative z-10 text-white">Exam Instructions</CardTitle>
             </CardHeader>
             <CardContent className="space-y-8">
-              <div className="bg-gradient-to-br from-primary/5 via-purple-50 to-pink-50 p-8 rounded-2xl border border-primary/10 animate-[fadein_0.8s_ease-out_0.4s] opacity-0 [animation-fill-mode:forwards] shadow-inner">
-                <p className="font-semibold mb-6 text-xl bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">Please read the following instructions carefully:</p>
-                <ul className="space-y-6 text-base">
+              <div className="bg-gradient-to-br from-slate-800/50 via-slate-900/50 to-slate-800/50 p-8 rounded-2xl border border-primary/20 animate-[fadein_0.8s_ease-out_0.4s] opacity-0 [animation-fill-mode:forwards] shadow-inner">
+                <p className="font-semibold mb-6 text-xl text-primary">Please read the following instructions carefully:</p>
+                <ul className="space-y-6 text-base text-slate-200">
                   <li className="flex items-start space-x-3">
                     <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0 animate-pulse"></span>
-                    <span>Your camera and microphone will be monitored throughout the exam</span>
+                    <span className="text-slate-200">Your camera and microphone will be monitored throughout the exam</span>
                   </li>
                   <li className="flex items-start space-x-3">
                     <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0 animate-pulse"></span>
-                    <span>Do not leave the exam window or switch to other applications</span>
+                    <span className="text-slate-200">Do not leave the exam window or switch to other applications</span>
                   </li>
                   <li className="flex items-start space-x-3">
                     <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0 animate-pulse"></span>
-                    <span>Keep your face visible to the camera at all times</span>
+                    <span className="text-slate-200">Keep your face visible to the camera at all times</span>
                   </li>
                   <li className="flex items-start space-x-3">
                     <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0 animate-pulse"></span>
-                    <span>Maintain a quiet environment</span>
+                    <span className="text-slate-200">Maintain a quiet environment</span>
                   </li>
                   <li className="flex items-start space-x-3">
                     <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0 animate-pulse"></span>
-                    <span>You have 60 minutes to complete the exam</span>
+                    <span className="text-slate-200">You have 60 minutes to complete the exam</span>
                   </li>
                 </ul>
               </div>
