@@ -266,8 +266,6 @@ const ProctorCamera: React.FC<ProctorCameraProps> = ({ onViolation, isActive }) 
           </div>
         </div>
       )}
-    </Card>
-
       {!isActive && (
         <div className="absolute inset-0 bg-muted/80 flex items-center justify-center rounded-lg">
           <Alert>
@@ -277,7 +275,7 @@ const ProctorCamera: React.FC<ProctorCameraProps> = ({ onViolation, isActive }) 
           </Alert>
         </div>
       )}
-    </div>
+    </Card>
   );
 };
 
