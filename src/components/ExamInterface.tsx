@@ -181,28 +181,28 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
               <CardTitle className="text-2xl sm:text-3xl font-display relative z-10 text-white">Exam Instructions</CardTitle>
             </CardHeader>
             <CardContent className="space-y-8">
-              <div className="bg-slate-950 p-8 rounded-2xl border border-primary/20 animate-[fadein_0.8s_ease-out_0.4s] opacity-0 [animation-fill-mode:forwards]">
-                <p className="font-semibold mb-6 text-xl text-primary">Please read the following instructions carefully:</p>
-                <ul className="space-y-6 text-base text-slate-200">
+              <div className="bg-slate-900 p-8 rounded-2xl border border-primary/20">
+                <p className="font-semibold mb-6 text-xl text-white">Please read the following instructions carefully:</p>
+                <ul className="space-y-6 text-base text-white">
                   <li className="flex items-start space-x-3">
                     <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0 animate-pulse"></span>
-                    <span className="text-slate-200">Your camera and microphone will be monitored throughout the exam</span>
+                    <span className="text-white">Your camera and microphone will be monitored throughout the exam</span>
                   </li>
                   <li className="flex items-start space-x-3">
                     <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0 animate-pulse"></span>
-                    <span className="text-slate-200">Do not leave the exam window or switch to other applications</span>
+                    <span className="text-white">Do not leave the exam window or switch to other applications</span>
                   </li>
                   <li className="flex items-start space-x-3">
                     <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0 animate-pulse"></span>
-                    <span className="text-slate-200">Keep your face visible to the camera at all times</span>
+                    <span className="text-white">Keep your face visible to the camera at all times</span>
                   </li>
                   <li className="flex items-start space-x-3">
                     <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0 animate-pulse"></span>
-                    <span className="text-slate-200">Maintain a quiet environment</span>
+                    <span className="text-white">Maintain a quiet environment</span>
                   </li>
                   <li className="flex items-start space-x-3">
                     <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0 animate-pulse"></span>
-                    <span className="text-slate-200">You have 60 minutes to complete the exam</span>
+                    <span className="text-white">You have 60 minutes to complete the exam</span>
                   </li>
                 </ul>
               </div>
