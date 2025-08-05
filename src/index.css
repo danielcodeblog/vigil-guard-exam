@@ -1,6 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* CSS Entry Point */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
@@ -109,16 +110,19 @@ All colors MUST be HSL.
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
     background: linear-gradient(135deg, hsl(var(--background)), hsl(var(--secondary)));
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display;
+    font-family: var(--font-display);
   }
 }
 
@@ -136,11 +140,18 @@ All colors MUST be HSL.
   }
   
   .glass-effect {
-    @apply backdrop-blur-lg bg-slate-900/20 border border-slate-700/30;
+    backdrop-filter: blur(16px);
+    background-color: rgba(15, 23, 42, 0.2);
+    border: 1px solid rgba(51, 65, 85, 0.3);
   }
   
   .hover-lift {
-    @apply transition-all duration-300 hover:scale-105 hover:shadow-xl;
+    transition: all 300ms;
+  }
+  
+  .hover-lift:hover {
+    transform: scale(1.05);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   }
   
   .text-shadow {
