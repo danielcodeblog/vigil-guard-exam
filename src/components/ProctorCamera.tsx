@@ -1,16 +1,12 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
-import * as faceapi from 'face-api.js';
+import * as faceapi from '@vladmandic/face-api';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 
-// Model URLs from face-api.js CDN
-const MODEL_URLS = {
-  tinyFaceDetector: 'https://raw.githubusercontent.com/justadudewhohacks/face-api.js/master/weights/tiny_face_detector_model-',
-  faceLandmark68: 'https://raw.githubusercontent.com/justadudewhohacks/face-api.js/master/weights/face_landmark_68_model-',
-  faceExpression: 'https://raw.githubusercontent.com/justadudewhohacks/face-api.js/master/weights/face_expression_model-'
-};
+// Model URLs from jsDelivr CDN
+const MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/';
 
 interface FaceDetectionState {
   faceDetected: boolean;
@@ -41,111 +37,45 @@ const ProctorCamera: React.FC<ProctorCameraProps> = ({ onViolation, isActive }) 
   });
   const [modelLoaded, setModelLoaded] = useState(false);
 
-  // Load face detection models with force download
+  // Load face detection models from CDN
   useEffect(() => {
-    const downloadAndSaveModel = async (baseUrl: string, modelName: string) => {
-      const files = ['shard1', 'weights_manifest.json'];
-      for (const file of files) {
-        const response = await fetch(`${baseUrl}${file}`);
-        if (!response.ok) throw new Error(`Failed to download ${modelName} ${file}`);
-        const blob = await response.blob();
-        
-        // Convert blob to base64 and store in localStorage as temporary cache
-        const reader = new FileReader();
-        const base64 = await new Promise<string>((resolve) => {
-          reader.onloadend = () => resolve(reader.result as string);
-          reader.readAsDataURL(blob);
-        });
-        localStorage.setItem(`face-api-${modelName}-${file}`, base64);
-      }
-    };
-
-    const loadModels = async (retryCount = 0) => {
+    const loadModels = async () => {
       try {
         setIsInitializing(true);
-        
-        // Force clear any cached models
-        faceapi.nets.tinyFaceDetector.isLoaded = false;
-        faceapi.nets.faceLandmark68Net.isLoaded = false;
-        faceapi.nets.faceExpressionNet.isLoaded = false;
-        
-        // Force download fresh models
-        await Promise.all([
-          downloadAndSaveModel(MODEL_URLS.tinyFaceDetector, 'tiny-face'),
-          downloadAndSaveModel(MODEL_URLS.faceLandmark68, 'landmark-68'),
-          downloadAndSaveModel(MODEL_URLS.faceExpression, 'expression')
-        ]);
+        console.log('Loading face detection models from CDN...');
 
-        // Attempt to load models with retries
+        // Load models with retries
+        let retryCount = 0;
         const maxRetries = 3;
-        const loadWithRetry = async (loader: any) => {
-          try {
-            await loader.loadFromUri('/weights');
-          } catch (e) {
-            if (retryCount < maxRetries) {
-              console.log(`Retrying model load... Attempt ${retryCount + 1}/${maxRetries}`);
-              await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1s before retry
-              return loadModels(retryCount + 1);
-            }
-            throw e;
-          }
-        };
 
-        // Create URLs from the cached base64 data
-        const createModelUrls = (modelName: string) => {
-          const shard = localStorage.getItem(`face-api-${modelName}-shard1`);
-          const manifest = localStorage.getItem(`face-api-${modelName}-weights_manifest.json`);
-          if (!shard || !manifest) throw new Error(`Missing model files for ${modelName}`);
-          
-          const blob1 = await fetch(shard).then(r => r.blob());
-          const blob2 = await fetch(manifest).then(r => r.blob());
-          
-          const url1 = URL.createObjectURL(blob1);
-          const url2 = URL.createObjectURL(blob2);
-          
-          return {
-            shard: url1,
-            manifest: url2
-          };
-        };
-
-        // Load models from the cached URLs
-        const maxRetries = 3;
-        const loadWithRetry = async (loader: any, modelName: string) => {
+        const loadWithRetry = async () => {
           try {
-            const urls = createModelUrls(modelName);
-            await loader.loadFromUri(urls);
-          } catch (e) {
+            await Promise.all([
+              faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+              faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+              faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL)
+            ]);
+            console.log('Models loaded successfully');
+            setModelLoaded(true);
+            setIsInitializing(false);
+          } catch (error) {
+            console.error(`Load attempt ${retryCount + 1} failed:`, error);
             if (retryCount < maxRetries) {
-              console.log(`Retrying model load... Attempt ${retryCount + 1}/${maxRetries}`);
+              retryCount++;
+              console.log(`Retrying... Attempt ${retryCount}/${maxRetries}`);
               await new Promise(resolve => setTimeout(resolve, 1000));
-              return loadModels(retryCount + 1);
+              return loadWithRetry();
             }
-            throw e;
+            throw error;
           }
         };
 
-        await Promise.all([
-          loadWithRetry(faceapi.nets.tinyFaceDetector, 'tiny-face'),
-          loadWithRetry(faceapi.nets.faceLandmark68Net, 'landmark-68'),
-          loadWithRetry(faceapi.nets.faceExpressionNet, 'expression')
-        ]);
-
-        setModelLoaded(true);
-        setIsInitializing(false);
+        await loadWithRetry();
       } catch (error) {
         console.error('Error loading face detection models:', error);
         onViolation('model_error', 'Failed to load face detection models');
       }
     };
-
-    // Clear any existing cached models
-    localStorage.removeItem('face-api-tiny-face-shard1');
-    localStorage.removeItem('face-api-tiny-face-weights_manifest.json');
-    localStorage.removeItem('face-api-landmark-68-shard1');
-    localStorage.removeItem('face-api-landmark-68-weights_manifest.json');
-    localStorage.removeItem('face-api-expression-shard1');
-    localStorage.removeItem('face-api-expression-weights_manifest.json');
 
     loadModels();
   }, [onViolation]);
