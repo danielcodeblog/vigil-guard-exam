@@ -5,6 +5,13 @@ import * as faceapi from 'face-api.js';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 
+// Model URLs from face-api.js CDN
+const MODEL_URLS = {
+  tinyFaceDetector: 'https://raw.githubusercontent.com/justadudewhohacks/face-api.js/master/weights/tiny_face_detector_model-',
+  faceLandmark68: 'https://raw.githubusercontent.com/justadudewhohacks/face-api.js/master/weights/face_landmark_68_model-',
+  faceExpression: 'https://raw.githubusercontent.com/justadudewhohacks/face-api.js/master/weights/face_expression_model-'
+};
+
 interface FaceDetectionState {
   faceDetected: boolean;
   multipleFaces: boolean;
@@ -34,14 +41,96 @@ const ProctorCamera: React.FC<ProctorCameraProps> = ({ onViolation, isActive }) 
   });
   const [modelLoaded, setModelLoaded] = useState(false);
 
-  // Load face detection models
+  // Load face detection models with force download
   useEffect(() => {
-    const loadModels = async () => {
+    const downloadAndSaveModel = async (baseUrl: string, modelName: string) => {
+      const files = ['shard1', 'weights_manifest.json'];
+      for (const file of files) {
+        const response = await fetch(`${baseUrl}${file}`);
+        if (!response.ok) throw new Error(`Failed to download ${modelName} ${file}`);
+        const blob = await response.blob();
+        
+        // Convert blob to base64 and store in localStorage as temporary cache
+        const reader = new FileReader();
+        const base64 = await new Promise<string>((resolve) => {
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.readAsDataURL(blob);
+        });
+        localStorage.setItem(`face-api-${modelName}-${file}`, base64);
+      }
+    };
+
+    const loadModels = async (retryCount = 0) => {
       try {
         setIsInitializing(true);
-        await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
-        await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
-        await faceapi.nets.faceExpressionNet.loadFromUri('/models');
+        
+        // Force clear any cached models
+        faceapi.nets.tinyFaceDetector.isLoaded = false;
+        faceapi.nets.faceLandmark68Net.isLoaded = false;
+        faceapi.nets.faceExpressionNet.isLoaded = false;
+        
+        // Force download fresh models
+        await Promise.all([
+          downloadAndSaveModel(MODEL_URLS.tinyFaceDetector, 'tiny-face'),
+          downloadAndSaveModel(MODEL_URLS.faceLandmark68, 'landmark-68'),
+          downloadAndSaveModel(MODEL_URLS.faceExpression, 'expression')
+        ]);
+
+        // Attempt to load models with retries
+        const maxRetries = 3;
+        const loadWithRetry = async (loader: any) => {
+          try {
+            await loader.loadFromUri('/weights');
+          } catch (e) {
+            if (retryCount < maxRetries) {
+              console.log(`Retrying model load... Attempt ${retryCount + 1}/${maxRetries}`);
+              await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1s before retry
+              return loadModels(retryCount + 1);
+            }
+            throw e;
+          }
+        };
+
+        // Create URLs from the cached base64 data
+        const createModelUrls = (modelName: string) => {
+          const shard = localStorage.getItem(`face-api-${modelName}-shard1`);
+          const manifest = localStorage.getItem(`face-api-${modelName}-weights_manifest.json`);
+          if (!shard || !manifest) throw new Error(`Missing model files for ${modelName}`);
+          
+          const blob1 = await fetch(shard).then(r => r.blob());
+          const blob2 = await fetch(manifest).then(r => r.blob());
+          
+          const url1 = URL.createObjectURL(blob1);
+          const url2 = URL.createObjectURL(blob2);
+          
+          return {
+            shard: url1,
+            manifest: url2
+          };
+        };
+
+        // Load models from the cached URLs
+        const maxRetries = 3;
+        const loadWithRetry = async (loader: any, modelName: string) => {
+          try {
+            const urls = createModelUrls(modelName);
+            await loader.loadFromUri(urls);
+          } catch (e) {
+            if (retryCount < maxRetries) {
+              console.log(`Retrying model load... Attempt ${retryCount + 1}/${maxRetries}`);
+              await new Promise(resolve => setTimeout(resolve, 1000));
+              return loadModels(retryCount + 1);
+            }
+            throw e;
+          }
+        };
+
+        await Promise.all([
+          loadWithRetry(faceapi.nets.tinyFaceDetector, 'tiny-face'),
+          loadWithRetry(faceapi.nets.faceLandmark68Net, 'landmark-68'),
+          loadWithRetry(faceapi.nets.faceExpressionNet, 'expression')
+        ]);
+
         setModelLoaded(true);
         setIsInitializing(false);
       } catch (error) {
@@ -49,6 +138,14 @@ const ProctorCamera: React.FC<ProctorCameraProps> = ({ onViolation, isActive }) 
         onViolation('model_error', 'Failed to load face detection models');
       }
     };
+
+    // Clear any existing cached models
+    localStorage.removeItem('face-api-tiny-face-shard1');
+    localStorage.removeItem('face-api-tiny-face-weights_manifest.json');
+    localStorage.removeItem('face-api-landmark-68-shard1');
+    localStorage.removeItem('face-api-landmark-68-weights_manifest.json');
+    localStorage.removeItem('face-api-expression-shard1');
+    localStorage.removeItem('face-api-expression-weights_manifest.json');
 
     loadModels();
   }, [onViolation]);

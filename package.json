@@ -9,7 +9,7 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "download-face-models": "node public/models/download-models.js"
+    "download-models": "node download-models.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
