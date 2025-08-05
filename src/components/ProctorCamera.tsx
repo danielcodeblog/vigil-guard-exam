@@ -264,20 +264,19 @@ const ProctorCamera: React.FC<ProctorCameraProps> = ({ onViolation, isActive }) 
               AI Proctoring Active
             </Badge>
           </div>
+
+          {!isActive && (
+            <div className="absolute inset-0 bg-muted/80 flex items-center justify-center backdrop-blur-sm">
+              <Alert>
+                <AlertDescription>
+                  Camera monitoring is disabled
+                </AlertDescription>
+              </Alert>
+            </div>
+          )}
         </div>
       )}
     </Card>
-
-      {!isActive && (
-        <div className="absolute inset-0 bg-muted/80 flex items-center justify-center rounded-lg">
-          <Alert>
-            <AlertDescription>
-              Camera monitoring is disabled
-            </AlertDescription>
-          </Alert>
-        </div>
-      )}
-    </div>
   );
 };
 
