@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { RadioGroup, RadioGroupItem } from '@/c          <div className="absolute w-[500px] h-[500px] -top-48 -right-24 bg-gradient-to-br from-indigo-500/20 via-blue-400/10 to-transparent rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute w-[500px] h-[500px] -bottom-48 -left-24 bg-gradient-to-tr from-cyan-400/20 via-blue-400/10 to-transparent rounded-full blur-3xl animate-pulse delay-1000"></div>ponents/ui/radio-group';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
