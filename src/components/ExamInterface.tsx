@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { RadioGroup, RadioGroupItem } from '@/c          <div className="absolute w-[500px] h-[500px] -top-48 -right-24 bg-gradient-to-br from-indigo-500/20 via-blue-400/10 to-transparent rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute w-[500px] h-[500px] -bottom-48 -left-24 bg-gradient-to-tr from-cyan-400/20 via-blue-400/10 to-transparent rounded-full blur-3xl animate-pulse delay-1000"></div>ponents/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
@@ -254,10 +255,10 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
 
   if (!examStarted) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-purple-50 to-pink-50/80 py-10 px-4 animate-[fadein_0.6s_ease-out] relative overflow-hidden">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-800 to-slate-900 py-10 px-4 animate-[fadein_0.6s_ease-out] relative overflow-hidden">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute w-[500px] h-[500px] -top-48 -right-24 bg-gradient-to-br from-indigo-600/20 via-blue-500/10 to-transparent rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute w-[500px] h-[500px] -top-48 -right-24 bg-gradient-to-br from-blue-500/20 via-cyan-400/10 to-transparent rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute w-[500px] h-[500px] -bottom-48 -left-24 bg-gradient-to-tr from-cyan-400/20 via-blue-500/10 to-transparent rounded-full blur-3xl animate-pulse delay-1000"></div>
           <div className="absolute inset-0 bg-grid-white/10 bg-[size:20px_20px] opacity-10"></div>
         </div>
@@ -265,7 +266,7 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
         <div className="max-w-6xl w-full mx-auto relative z-10">
           <div className="text-center mb-10">
             <div className="inline-block">
-              <h2 className="text-5xl sm:text-7xl font-display font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-500 to-cyan-400 mb-4 animate-[slidein_0.8s_ease-out] tracking-tight drop-shadow-lg relative">
+              <h2 className="text-5xl sm:text-7xl font-display font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-blue-400 to-cyan-400 mb-4 animate-[slidein_0.8s_ease-out] tracking-tight drop-shadow-lg relative">
                 XhoraProc Secure Examination
                 <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/20 to-cyan-400/20 blur-2xl opacity-50"></div>
               </h2>
@@ -277,9 +278,9 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
 
           <div className="grid lg:grid-cols-[2fr,1fr] gap-8">
             {/* Main Instructions Card */}
-            <Card className="hover:scale-[1.01] transition-all duration-500 glass-effect border-primary/20 shadow-2xl backdrop-blur-md bg-white/40">
-              <CardHeader className="text-center relative overflow-hidden border-b border-primary/10">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-purple-200/10 to-pink-200/5"></div>
+            <Card className="hover:scale-[1.01] transition-all duration-500 glass-effect border-primary/20 shadow-2xl backdrop-blur-md bg-slate-900/40">
+              <CardHeader className="text-center relative overflow-hidden border-b border-primary/20">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-slate-800 to-slate-900/80"></div>
                 <CardTitle className="text-3xl sm:text-4xl font-display relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600">
                   Examination Overview
                 </CardTitle>
@@ -288,7 +289,7 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
                 <div className="grid sm:grid-cols-2 gap-6">
                   {/* Time & Marks */}
                   <div className="space-y-6">
-                    <div className="bg-white/40 rounded-xl p-4 border border-primary/10 shadow-inner">
+                    <div className="bg-slate-800/40 rounded-xl p-4 border border-primary/20 shadow-inner">
                       <h3 className="text-lg font-semibold flex items-center gap-2 mb-3 text-primary">
                         <Clock className="h-5 w-5" />
                         Time & Format
@@ -379,7 +380,7 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
 
                 <Button 
                   onClick={startExam} 
-                  className="w-full mt-8 text-lg py-6 relative group overflow-hidden bg-gradient-to-r from-indigo-600 via-blue-500 to-cyan-400 text-white font-bold shadow-lg hover:scale-[1.02] transition-all duration-300 animate-fadein delay-200"
+                  className="w-full mt-8 text-lg py-6 relative group overflow-hidden bg-gradient-to-r from-indigo-500 via-blue-400 to-cyan-400 text-white font-bold shadow-lg hover:scale-[1.02] transition-all duration-300 animate-fadein delay-200"
                   size="lg"
                 >
                   <span className="relative z-10">Begin Secure Examination</span>
@@ -424,7 +425,7 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-purple-50 to-pink-50/80 py-6 px-4 animate-[fadein_0.6s_ease-out]">
+    <div className="min-h-screen flex flex-col bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-slate-900 to-slate-950 py-6 px-4 animate-[fadein_0.6s_ease-out]">
       <div className="max-w-[1600px] w-full mx-auto space-y-6">
         {/* Top Bar with Timer and Stats */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -529,8 +530,8 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
-                    <div className="bg-gradient-to-r from-primary/10 via-purple-100 to-pink-100 p-6 rounded-xl border border-primary/10">
-                      <p className="text-xl leading-relaxed">{currentQuestion?.question}</p>
+                    <div className="bg-gradient-to-r from-slate-800 via-slate-900 to-slate-800 p-6 rounded-xl border border-primary/20">
+                      <p className="text-xl leading-relaxed text-white/90">{currentQuestion?.question}</p>
                     </div>
                     <RadioGroup
                       value={selectedAnswers[currentQuestion?.id] || ''}

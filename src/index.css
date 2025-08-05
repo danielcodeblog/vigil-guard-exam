@@ -23,9 +23,9 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 240 73% 15%;
 
-    --primary: 266 85% 25%;
+    --primary: 210 85% 60%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 266 85% 65%;
+    --primary-glow: 210 85% 70%;
 
     --secondary: 240 20% 96%;
     --secondary-foreground: 240 73% 15%;
@@ -77,9 +77,9 @@ All colors MUST be HSL.
     --popover: 240 50% 10%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 266 85% 65%;
+    --primary: 210 85% 60%;
     --primary-foreground: 240 73% 8%;
-    --primary-glow: 266 85% 75%;
+    --primary-glow: 210 85% 70%;
 
     --secondary: 240 20% 15%;
     --secondary-foreground: 0 0% 98%;
@@ -136,7 +136,7 @@ All colors MUST be HSL.
   }
   
   .glass-effect {
-    @apply backdrop-blur-lg bg-white/10 border border-white/20;
+    @apply backdrop-blur-lg bg-slate-900/20 border border-slate-700/30;
   }
   
   .hover-lift {
