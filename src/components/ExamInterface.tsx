@@ -494,15 +494,113 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
               </TabsContent>
               <TabsContent value="instructions">
                 <Card className="glass-effect border-primary/20 shadow-xl">
-                  <CardContent className="p-6">
-                    <div className="prose prose-lg">
-                      <h3 className="text-xl font-semibold mb-4">Question Guidelines</h3>
-                      <ul className="space-y-2">
-                        <li>Read each question carefully before answering</li>
-                        <li>Use the "Mark for Review" feature for questions you want to revisit</li>
-                        <li>Recommended time per question is shown with each question</li>
-                        <li>Questions marked with a flag can be easily found in the navigation panel</li>
-                      </ul>
+                  <CardContent className="p-8">
+                    <div className="space-y-8">
+                      {/* Exam Rules */}
+                      <section className="space-y-4">
+                        <h3 className="text-2xl font-display font-semibold text-primary">Examination Rules</h3>
+                        <div className="grid gap-4 sm:grid-cols-2">
+                          <div className="bg-white/40 p-4 rounded-lg border border-primary/10">
+                            <h4 className="font-semibold mb-2 flex items-center gap-2">
+                              <Clock className="h-5 w-5 text-primary" />
+                              Time Management
+                            </h4>
+                            <ul className="space-y-2 text-sm">
+                              <li>Total duration: 60 minutes</li>
+                              <li>Timer cannot be paused once started</li>
+                              <li>Auto-submission when time expires</li>
+                              <li>Pay attention to recommended time per question</li>
+                            </ul>
+                          </div>
+                          <div className="bg-white/40 p-4 rounded-lg border border-primary/10">
+                            <h4 className="font-semibold mb-2 flex items-center gap-2">
+                              <AlertCircle className="h-5 w-5 text-primary" />
+                              Proctoring Guidelines
+                            </h4>
+                            <ul className="space-y-2 text-sm">
+                              <li>Maintain clear face visibility</li>
+                              <li>No additional persons allowed</li>
+                              <li>Avoid looking away from screen</li>
+                              <li>Maintain a quiet environment</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </section>
+
+                      {/* Navigation Tips */}
+                      <section className="space-y-4">
+                        <h3 className="text-2xl font-display font-semibold text-primary">Navigation & Features</h3>
+                        <div className="grid gap-4 sm:grid-cols-2">
+                          <div className="bg-white/40 p-4 rounded-lg border border-primary/10">
+                            <h4 className="font-semibold mb-2 flex items-center gap-2">
+                              <BookOpen className="h-5 w-5 text-primary" />
+                              Question Navigation
+                            </h4>
+                            <ul className="space-y-2 text-sm">
+                              <li>Use Previous/Next buttons to move between questions</li>
+                              <li>Question navigator shows all questions at a glance</li>
+                              <li>Click question numbers to jump directly</li>
+                              <li>Color coding indicates question status</li>
+                            </ul>
+                          </div>
+                          <div className="bg-white/40 p-4 rounded-lg border border-primary/10">
+                            <h4 className="font-semibold mb-2 flex items-center gap-2">
+                              <Flag className="h-5 w-5 text-primary" />
+                              Review System
+                            </h4>
+                            <ul className="space-y-2 text-sm">
+                              <li>"Mark for Review" to flag difficult questions</li>
+                              <li>Track attempted vs unattempted questions</li>
+                              <li>Review marked questions before submission</li>
+                              <li>Progress tracker shows completion status</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </section>
+
+                      {/* Important Instructions */}
+                      <section className="space-y-4">
+                        <h3 className="text-2xl font-display font-semibold text-primary">Important Instructions</h3>
+                        <div className="bg-white/40 p-6 rounded-lg border border-primary/10">
+                          <ul className="space-y-4 text-sm">
+                            <li className="flex items-start gap-3">
+                              <span className="flex-shrink-0 h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">1</span>
+                              <span>Read each question and all options carefully before selecting your answer. Once submitted, answers cannot be changed.</span>
+                            </li>
+                            <li className="flex items-start gap-3">
+                              <span className="flex-shrink-0 h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">2</span>
+                              <span>Each question has a different mark value. Focus on higher mark questions to maximize your score.</span>
+                            </li>
+                            <li className="flex items-start gap-3">
+                              <span className="flex-shrink-0 h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">3</span>
+                              <span>Any violation of proctoring rules (multiple faces, looking away, etc.) will be recorded and may affect your results.</span>
+                            </li>
+                            <li className="flex items-start gap-3">
+                              <span className="flex-shrink-0 h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">4</span>
+                              <span>In case of technical issues, your progress is automatically saved. Contact support if you need assistance.</span>
+                            </li>
+                          </ul>
+                        </div>
+                      </section>
+
+                      {/* Additional Information */}
+                      <section className="bg-primary/5 p-6 rounded-lg border border-primary/10">
+                        <h4 className="font-semibold mb-3 text-primary">Scoring Information</h4>
+                        <div className="grid gap-4 sm:grid-cols-3 text-sm">
+                          <div>
+                            <p className="font-medium">Easy Questions</p>
+                            <p className="text-muted-foreground">1-2 marks each</p>
+                          </div>
+                          <div>
+                            <p className="font-medium">Medium Questions</p>
+                            <p className="text-muted-foreground">3-4 marks each</p>
+                          </div>
+                          <div>
+                            <p className="font-medium">Hard Questions</p>
+                            <p className="text-muted-foreground">5-6 marks each</p>
+                          </div>
+                        </div>
+                      </section>
                     </div>
                   </CardContent>
                 </Card>
