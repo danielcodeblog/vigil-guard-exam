@@ -265,9 +265,9 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
         <div className="max-w-6xl w-full mx-auto relative z-10">
           <div className="text-center mb-10">
             <div className="inline-block">
-              <h2 className="text-5xl sm:text-7xl font-display font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-600 to-pink-600 mb-4 animate-[slidein_0.8s_ease-out] tracking-tight drop-shadow-lg relative">
+              <h2 className="text-5xl sm:text-7xl font-display font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-cyan-500 to-emerald-500 mb-4 animate-[slidein_0.8s_ease-out] tracking-tight drop-shadow-lg relative">
                 XhoraProc Secure Examination
-                <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-pink-600/20 blur-2xl opacity-50"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/20 to-emerald-500/20 blur-2xl opacity-50"></div>
               </h2>
             </div>
             <p className="text-muted-foreground text-lg sm:text-xl font-medium animate-[fadein_0.8s_ease-out_0.2s] opacity-0 [animation-fill-mode:forwards]">
@@ -379,7 +379,7 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
 
                 <Button 
                   onClick={startExam} 
-                  className="w-full mt-8 text-lg py-6 relative group overflow-hidden bg-gradient-to-r from-primary via-purple-500 to-pink-500 text-white font-bold shadow-lg hover:scale-[1.02] transition-all duration-300 animate-fadein delay-200"
+                  className="w-full mt-8 text-lg py-6 relative group overflow-hidden bg-gradient-to-r from-indigo-500 via-cyan-500 to-emerald-500 text-white font-bold shadow-lg hover:scale-[1.02] transition-all duration-300 animate-fadein delay-200"
                   size="lg"
                 >
                   <span className="relative z-10">Begin Secure Examination</span>
