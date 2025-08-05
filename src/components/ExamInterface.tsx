@@ -257,8 +257,8 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
       <div className="min-h-screen flex flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-purple-50 to-pink-50/80 py-10 px-4 animate-[fadein_0.6s_ease-out] relative overflow-hidden">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute w-[500px] h-[500px] -top-48 -right-24 bg-gradient-to-br from-primary/20 via-purple-500/10 to-transparent rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute w-[500px] h-[500px] -bottom-48 -left-24 bg-gradient-to-tr from-pink-500/20 via-primary/10 to-transparent rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute w-[500px] h-[500px] -top-48 -right-24 bg-gradient-to-br from-indigo-500/20 via-cyan-500/10 to-transparent rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute w-[500px] h-[500px] -bottom-48 -left-24 bg-gradient-to-tr from-emerald-500/20 via-cyan-500/10 to-transparent rounded-full blur-3xl animate-pulse delay-1000"></div>
           <div className="absolute inset-0 bg-grid-white/10 bg-[size:20px_20px] opacity-10"></div>
         </div>
 
@@ -575,7 +575,7 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
                       {currentQuestionIndex === questions.length - 1 ? (
                         <Button 
                           onClick={handleSubmitExam}
-                          className="bg-gradient-to-r from-primary via-purple-500 to-pink-500 text-white"
+                          className="bg-gradient-to-r from-indigo-500 via-cyan-500 to-emerald-500 text-white"
                         >
                           <CheckCircle2 className="w-4 h-4 mr-2" />
                           Submit Exam
