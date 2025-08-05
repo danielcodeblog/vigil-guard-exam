@@ -181,7 +181,7 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
               <CardTitle className="text-2xl sm:text-3xl font-display relative z-10 text-white">Exam Instructions</CardTitle>
             </CardHeader>
             <CardContent className="space-y-8">
-              <div className="bg-gradient-to-br from-slate-900/80 via-slate-950/90 to-slate-900/80 p-8 rounded-2xl border border-primary/20 animate-[fadein_0.8s_ease-out_0.4s] opacity-0 [animation-fill-mode:forwards] shadow-inner">
+              <div className="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 p-8 rounded-2xl border border-primary/20 animate-[fadein_0.8s_ease-out_0.4s] opacity-0 [animation-fill-mode:forwards] shadow-inner">
                 <p className="font-semibold mb-6 text-xl text-primary">Please read the following instructions carefully:</p>
                 <ul className="space-y-6 text-base text-slate-200">
                   <li className="flex items-start space-x-3">
