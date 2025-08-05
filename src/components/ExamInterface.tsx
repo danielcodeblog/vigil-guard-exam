@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
@@ -9,14 +9,23 @@ import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import ProctorCamera from './ProctorCamera';
 import AudioMonitor from './AudioMonitor';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Separator } from '@/components/ui/separator';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { AlertCircle, CheckCircle2, Clock, Flag, BookOpen, Brain, Activity } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface Question {
   id: string;
   question: string;
-  options: any; // JSON field from database
+  options: string[];
   correct_answer: string;
-  difficulty: string;
+  difficulty: 'easy' | 'medium' | 'hard';
   subject: string;
+  explanation?: string;
+  marks: number;
+  category: string;
+  timeRecommended?: number;
 }
 
 interface ExamInterfaceProps {
@@ -24,17 +33,23 @@ interface ExamInterfaceProps {
 }
 
 const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
-  // Add sign out function using window.location for simplicity
-  const handleSignOut = () => {
-    window.location.href = '/'; // Or use router if available
-  };
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
+  const [markedQuestions, setMarkedQuestions] = useState<Set<number>>(new Set());
   const [sessionId, setSessionId] = useState<string>('');
   const [violations, setViolations] = useState<any[]>([]);
   const [examStarted, setExamStarted] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(3600); // 60 minutes
+  const [currentTab, setCurrentTab] = useState('question');
+  const [questionStatus, setQuestionStatus] = useState<Record<number, 'unattempted' | 'attempted' | 'marked'>>({});
+  const [lastActionTime, setLastActionTime] = useState<Date>(new Date());
+  const [examStats, setExamStats] = useState({
+    totalMarks: 0,
+    attemptedQuestions: 0,
+    markedForReview: 0,
+    averageTimePerQuestion: 0
+  });
   const { toast } = useToast();
 
   useEffect(() => {
@@ -124,23 +139,74 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
     });
   };
 
+  const updateExamStats = useCallback(() => {
+    const attempted = Object.keys(selectedAnswers).length;
+    const marked = markedQuestions.size;
+    const totalMarks = questions.reduce((sum, q) => sum + q.marks, 0);
+    const timeSpent = 3600 - timeRemaining;
+    const avgTime = attempted > 0 ? timeSpent / attempted : 0;
+
+    setExamStats({
+      totalMarks,
+      attemptedQuestions: attempted,
+      markedForReview: marked,
+      averageTimePerQuestion: Math.round(avgTime)
+    });
+  }, [selectedAnswers, markedQuestions, questions, timeRemaining]);
+
   const handleAnswerChange = (questionId: string, answer: string) => {
     setSelectedAnswers(prev => ({
       ...prev,
       [questionId]: answer
     }));
+    setQuestionStatus(prev => ({
+      ...prev,
+      [currentQuestionIndex]: 'attempted'
+    }));
+    setLastActionTime(new Date());
+    updateExamStats();
+  };
+
+  const toggleMarkQuestion = () => {
+    setMarkedQuestions(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(currentQuestionIndex)) {
+        newSet.delete(currentQuestionIndex);
+      } else {
+        newSet.add(currentQuestionIndex);
+      }
+      return newSet;
+    });
+    setQuestionStatus(prev => ({
+      ...prev,
+      [currentQuestionIndex]: markedQuestions.has(currentQuestionIndex) ? 'attempted' : 'marked'
+    }));
+    updateExamStats();
   };
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(prev => prev + 1);
+      setLastActionTime(new Date());
     }
   };
 
   const handlePreviousQuestion = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(prev => prev - 1);
+      setLastActionTime(new Date());
     }
+  };
+
+  const jumpToQuestion = (index: number) => {
+    setCurrentQuestionIndex(index);
+    setLastActionTime(new Date());
+  };
+
+  const getQuestionStatus = (index: number) => {
+    if (markedQuestions.has(index)) return 'marked';
+    if (selectedAnswers[questions[index]?.id]) return 'attempted';
+    return 'unattempted';
   };
 
   const handleSubmitExam = async () => {
@@ -160,20 +226,43 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
   };
 
   const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
+    const hours = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    return `${hours > 0 ? hours.toString().padStart(2, '0') + ':' : ''}${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
+
+  const getTimeColor = (timeLeft: number) => {
+    if (timeLeft <= 300) return 'text-red-600 animate-pulse'; // 5 minutes or less
+    if (timeLeft <= 600) return 'text-orange-500'; // 10 minutes or less
+    return 'text-primary';
+  };
+
+  const calculateProgress = () => {
+    return {
+      attempted: (Object.keys(selectedAnswers).length / questions.length) * 100,
+      marked: (markedQuestions.size / questions.length) * 100,
+      remaining: ((questions.length - Object.keys(selectedAnswers).length - markedQuestions.size) / questions.length) * 100
+    };
+  };
+
+  useEffect(() => {
+    if (examStarted) {
+      updateExamStats();
+    }
+  }, [examStarted, updateExamStats]);
 
   if (!examStarted) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-purple-50 to-pink-50/80 py-10 px-4 animate-[fadein_0.6s_ease-out]">
-        <div className="max-w-2xl w-full mx-auto">
+        <div className="max-w-4xl w-full mx-auto">
           <div className="text-center mb-10">
-            <h2 className="text-4xl sm:text-6xl font-display font-extrabold text-primary mb-4 animate-[slidein_0.8s_ease-out] tracking-tight">
-              Xhora Secure Examination
+            <h2 className="text-4xl sm:text-6xl font-display font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-600 to-pink-600 mb-4 animate-[slidein_0.8s_ease-out] tracking-tight drop-shadow-lg">
+              XhoraProc Secure Examination
             </h2>
-            <p className="text-muted-foreground text-lg sm:text-xl font-medium animate-[fadein_0.8s_ease-out_0.2s] opacity-0 [animation-fill-mode:forwards]">Prepare for your AI-monitored assessment</p>
+            <p className="text-muted-foreground text-lg sm:text-xl font-medium animate-[fadein_0.8s_ease-out_0.2s] opacity-0 [animation-fill-mode:forwards]">
+              Welcome to your AI-monitored assessment experience
+            </p>
           </div>
           <Card className="hover:scale-[1.02] transition-all duration-500 glass-effect border-primary/20 shadow-2xl backdrop-blur-md bg-white/40">
             <CardHeader className="text-center relative overflow-hidden">
