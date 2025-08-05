@@ -416,7 +416,6 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
             </div>
           </div>
         </div>
-        </div>
       </div>
     );
   }
