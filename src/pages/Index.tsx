@@ -3,10 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/hooks/useAuth';
+import { useUserRole } from '@/hooks/useUserRole';
 import ExamInterface from '@/components/ExamInterface';
+import { Shield } from 'lucide-react';
 
 const Index = () => {
   const { user, loading, signOut } = useAuth();
+  const { isAdmin } = useUserRole();
   const navigate = useNavigate();
 
   if (loading) {
@@ -39,10 +42,19 @@ const Index = () => {
               <span className="text-sm text-white/90 font-semibold hidden sm:inline truncate max-w-32 lg:max-w-none">
                 {user.email}
               </span>
+              {isAdmin && (
+                <Button 
+                  variant="outline" 
+                  onClick={() => navigate('/admin')}
+                  className="gap-2"
+                >
+                  <Shield className="h-4 w-4" />
+                  <span className="hidden sm:inline">Admin</span>
+                </Button>
+              )}
               <Button 
                 variant="outline" 
                 onClick={signOut}
-                
               >
                 Sign Out
               </Button>
