@@ -7,76 +7,14 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "12.2.12 (cd3cf9e)"
+    PostgrestVersion: "13.0.5"
   }
   public: {
     Tables: {
-      exam_questions: {
-        Row: {
-          correct_answer: string
-          created_at: string
-          difficulty: string | null
-          id: string
-          options: Json
-          question: string
-          subject: string | null
-          updated_at: string
-        }
-        Insert: {
-          correct_answer: string
-          created_at?: string
-          difficulty?: string | null
-          id?: string
-          options: Json
-          question: string
-          subject?: string | null
-          updated_at?: string
-        }
-        Update: {
-          correct_answer?: string
-          created_at?: string
-          difficulty?: string | null
-          id?: string
-          options?: Json
-          question?: string
-          subject?: string | null
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      exam_sessions: {
-        Row: {
-          created_at: string
-          ended_at: string | null
-          id: string
-          started_at: string
-          status: string | null
-          user_id: string
-          violations: Json | null
-        }
-        Insert: {
-          created_at?: string
-          ended_at?: string | null
-          id?: string
-          started_at?: string
-          status?: string | null
-          user_id: string
-          violations?: Json | null
-        }
-        Update: {
-          created_at?: string
-          ended_at?: string | null
-          id?: string
-          started_at?: string
-          status?: string | null
-          user_id?: string
-          violations?: Json | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Views: {
       [_ in never]: never
