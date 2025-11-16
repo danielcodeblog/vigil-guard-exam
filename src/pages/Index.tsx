@@ -18,36 +18,8 @@ const Index = () => {
   }
 
   if (!user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-purple-900 via-blue-800 to-cyan-600">
-        <div className="w-full max-w-md mx-auto">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold bg-clip-text text-white drop-shadow-lg mb-2">
-              XhoraProc
-            </h1>
-            <p className="text-lg text-white/90 font-semibold">Advanced AI Proctoring System</p>
-          </div>
-          
-          <Card className="hover-lift glass-effect border-primary/20 shadow-xl">
-            <CardHeader className="text-center">
-              <CardTitle className="text-2xl text-white font-bold">Welcome Back</CardTitle>
-              <CardDescription className="text-base text-white/80">
-                Please sign in to access your secure examinations
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button 
-                onClick={() => navigate('/auth')} 
-                className="w-full text-lg py-6 bg-cyan-600 text-white font-bold hover:bg-cyan-700 transition-all duration-300"
-                size="lg"
-              >
-                Sign In to Xhora
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    );
+    navigate('/auth');
+    return null;
   }
 
   return (
