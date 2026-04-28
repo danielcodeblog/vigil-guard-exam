@@ -75,6 +75,14 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
   };
 
   const startExam = async () => {
+    if (questions.length === 0) {
+      toast({
+        title: "No questions available",
+        description: "Please ask an admin to add exam questions before starting.",
+        variant: "destructive"
+      });
+      return;
+    }
     const { data, error } = await supabase
       .from('exam_sessions')
       .insert({
