@@ -83,20 +83,25 @@ const ExamInterface: React.FC<ExamInterfaceProps> = ({ userId }) => {
       });
       return;
     }
-    const { data, error } = await supabase
-      .from('exam_sessions')
-      .insert({
-        user_id: userId,
-        status: 'active',
-        violations: []
-      })
-      .select()
-      .single();
+    let data: any = null;
+    let error: any = null;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const res = await supabase
+        .from('exam_sessions')
+        .insert({ user_id: userId, status: 'active', violations: [] })
+        .select()
+        .single();
+      data = res.data;
+      error = res.error;
+      if (!error) break;
+      await new Promise(r => setTimeout(r, 800 * (attempt + 1)));
+    }
 
     if (error) {
+      console.error('startExam error:', error);
       toast({
         title: "Error",
-        description: "Failed to start exam session",
+        description: error.message || "Failed to start exam session",
         variant: "destructive"
       });
     } else {
