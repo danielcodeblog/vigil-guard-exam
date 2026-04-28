@@ -35,8 +35,22 @@ const Auth = () => {
     return () => subscription.unsubscribe();
   }, [navigate]);
 
+  const validatePassword = (pwd: string): string | null => {
+    if (pwd.length < 8) return 'Password must be at least 8 characters long.';
+    if (!/[A-Za-z]/.test(pwd)) return 'Password must contain at least one letter.';
+    if (!/[0-9]/.test(pwd)) return 'Password must contain at least one number.';
+    return null;
+  };
+
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const pwdError = validatePassword(password);
+    if (pwdError) {
+      toast({ title: 'Weak Password', description: pwdError, variant: 'destructive' });
+      return;
+    }
+
     setLoading(true);
 
     const { error } = await supabase.auth.signUp({
@@ -160,8 +174,12 @@ const Auth = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
+                      minLength={8}
                       className="bg-white/60 border border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                     />
+                    <p className="text-xs text-blue-900/70">
+                      Min 8 characters, at least one letter and one number.
+                    </p>
                   </div>
                   <Button type="submit" className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-all duration-150" disabled={loading}>
                     {loading ? 'Creating Account...' : 'Sign Up'}
