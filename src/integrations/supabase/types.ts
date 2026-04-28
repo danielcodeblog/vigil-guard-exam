@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "13.0.5"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
@@ -23,15 +23,17 @@ export type Database = {
           options: Json
           question: string
           subject: string
+          updated_at: string
         }
         Insert: {
           correct_answer: string
           created_at?: string
-          difficulty: string
+          difficulty?: string
           id?: string
-          options: Json
+          options?: Json
           question: string
-          subject: string
+          subject?: string
+          updated_at?: string
         }
         Update: {
           correct_answer?: string
@@ -41,54 +43,52 @@ export type Database = {
           options?: Json
           question?: string
           subject?: string
+          updated_at?: string
         }
         Relationships: []
       }
       exam_sessions: {
         Row: {
-          created_at: string
           ended_at: string | null
           id: string
           started_at: string
           status: string
           user_id: string
-          violations: Json | null
+          violations: Json
         }
         Insert: {
-          created_at?: string
           ended_at?: string | null
           id?: string
           started_at?: string
           status?: string
           user_id: string
-          violations?: Json | null
+          violations?: Json
         }
         Update: {
-          created_at?: string
           ended_at?: string | null
           id?: string
           started_at?: string
           status?: string
           user_id?: string
-          violations?: Json | null
+          violations?: Json
         }
         Relationships: []
       }
       user_roles: {
         Row: {
-          created_at: string | null
+          created_at: string
           id: string
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           id?: string
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
